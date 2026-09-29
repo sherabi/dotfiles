@@ -5,7 +5,4 @@ vim.pack.add({
 require("render-markdown").setup({
   -- Otherwise the language icon shows once inline and again in the sign column.
   code = { sign = false },
-  -- Parsers for these aren't installed; avoids checkhealth warnings.
-  html = { enabled = false },
-  latex = { enabled = false },
 })

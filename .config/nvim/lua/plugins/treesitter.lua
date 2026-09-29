@@ -25,6 +25,8 @@ local parsers = {
   "typescript",
   "tsx",
   "rust",
+  "html",
+  "latex",
 }
 require("nvim-treesitter").install(parsers)
 
