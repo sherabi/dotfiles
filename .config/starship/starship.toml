@@ -1,0 +1,90 @@
+format = """\
+$username\
+[@](red)\
+$hostname\
+$localip\
+$directory\
+$time\
+$git_branch\
+$git_status\
+$fill\
+$python\
+$lua\
+$golang\
+$rust\
+$terraform\
+$line_break\
+$character
+"""
+
+command_timeout = 1000
+palette = "mycustom"
+
+[character]
+success_symbol = "[❯](bold green)"
+error_symbol = "[›_](bold red)"
+
+[palettes.mycustom]
+cyan = '#00FFFF'
+light_purple = '#FF77FF'
+light_green = '#77FF77'
+
+[username]
+show_always = true
+style_user = 'cyan'
+style_root = 'cyan'
+format = '[$user]($style)'
+
+[hostname]
+style = 'green'
+format = '[$hostname]($style)'
+disabled = false
+ssh_only = false
+
+[localip]
+style = 'yellow'
+format = '[\($localipv4\)]($style)'
+ssh_only = false
+disabled = false
+
+[directory]
+style = 'red'
+format = '[\[📁$path\]]($style) '
+truncation_length = 10
+truncate_to_repo = false
+disabled = false
+
+[time]
+use_12hr = true
+style = 'blue'
+disabled = false
+time_format = '%a %b %d %r'
+format = '[$time]($style) '
+
+[git_branch]
+style = "purple"
+symbol = ' '
+
+[python]
+style = "light_green"
+symbol = ' '
+format = '[${symbol}${pyenv_prefix}(${version} )(\($virtualenv\) )]($style)'
+
+[golang]
+symbol = " "
+style = "cyan"
+format = '[$symbol($version )]($style)'
+
+[rust]
+symbol = " "
+style = "light_purple"
+format = '[$symbol($version )]($style)'
+
+[terraform]
+style = 'light_purple'
+symbol = '󱁢 '
+format = '[$symbol$workspace]($style) '
+
+[fill]
+disabled = false
+symbol = ' '

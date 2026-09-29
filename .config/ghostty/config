@@ -1,0 +1,13 @@
+shell-integration = bash
+background-opacity = 0.7
+background-blur = true
+theme = catppuccin-mocha
+font-family = MonaspiceRn Nerd Font Mono
+font-family-bold = MonaspiceRn NFM Bold
+font-family-italic = MonaspiceRn NFM Bold
+font-family-bold-italic = MonaspiceRn NFM Bold
+font-size = 14
+#font-family-bold = MonaspiceRn NFM Bold
+#font-family-italic = MonaspiceRn NFM Italic
+#font-family-bold-italic = MonaspiceRn NFM Bold Italic
+keybind = shift+enter=text:\x1b\r

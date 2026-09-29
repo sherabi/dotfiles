@@ -1,0 +1,11 @@
+[[plugin.deps]]
+use = "yazi-rs/plugins:full-border"
+
+[[plugin.deps]]
+use = "yazi-rs/plugins:chmod"
+
+[[plugin.deps]]
+use = "yazi-rs/plugins:lsar"
+
+[flavor]
+deps = []
