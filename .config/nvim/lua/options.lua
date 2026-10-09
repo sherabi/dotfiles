@@ -7,26 +7,99 @@ vim.g.loaded_ruby_provider = 0
 
 local opt = vim.opt
 
+-- Indentation
 opt.expandtab = true
 opt.tabstop = 2
 opt.softtabstop = 2
 opt.shiftwidth = 2
-opt.signcolumn = "yes"
-opt.clipboard = "unnamedplus"
-opt.showmatch = true
-opt.swapfile = false
+
+-- Display
 opt.termguicolors = true
+opt.background = "dark"
 opt.cursorline = true
+opt.signcolumn = "yes"
+opt.showmatch = true
+opt.showmode = false
+opt.scrolloff = 10
+opt.sidescrolloff = 8
+opt.fillchars = { eob = " " }
+-- opt.winbar = "%f"
+
+-- Windows and popups
+opt.winborder = "rounded"
+opt.pumborder = "rounded"
+opt.pumheight = 10
+opt.splitbelow = true
+opt.splitright = true
+
+-- Search
 opt.ignorecase = true
 opt.smartcase = true
-opt.winborder = "rounded"
+
+-- Completion
 opt.autocomplete = true
-opt.autoread = true
 opt.complete = "o,w,b,u,t"
 opt.completeopt = "menu,menuone,noselect,popup,nearest"
-opt.pumborder = "rounded"
--- opt.winbar = "%f"
-opt.background = "dark"
+
+-- Folding
+opt.foldmethod = "expr"
+opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
+opt.foldlevel = 99
+
+-- Files and undo
+opt.swapfile = false
+opt.undofile = true
+opt.autoread = true
+
+-- Behavior
+opt.clipboard = "unnamedplus"
+opt.updatetime = 300
+-- Time allowed between keys of a mapping (default 1000); gives which-key
+-- sequences like <Leader>r<Left> a little more room.
+opt.timeoutlen = 1500
+
+-- Autocmds
+local augroup = vim.api.nvim_create_augroup("UserOptions", { clear = true })
+
+-- Briefly highlight yanked text.
+vim.api.nvim_create_autocmd("TextYankPost", {
+  group = augroup,
+  callback = function()
+    vim.hl.on_yank()
+  end,
+})
+
+-- Skip commit/rebase buffers, where the saved position is meaningless.
+vim.api.nvim_create_autocmd("BufReadPost", {
+  group = augroup,
+  callback = function(args)
+    local ft = vim.bo[args.buf].filetype
+    if ft == "gitcommit" or ft == "gitrebase" then
+      return
+    end
+    local mark = vim.api.nvim_buf_get_mark(args.buf, '"')
+    if mark[1] > 0 and mark[1] <= vim.api.nvim_buf_line_count(args.buf) then
+      pcall(vim.api.nvim_win_set_cursor, 0, mark)
+    end
+  end,
+})
+
+-- Create missing parent directories when saving to a new path.
+vim.api.nvim_create_autocmd("BufWritePre", {
+  group = augroup,
+  callback = function(args)
+    if args.match:match("^%w%w+:[\\/][\\/]") then
+      return
+    end
+    vim.fn.mkdir(vim.fn.fnamemodify(args.file, ":p:h"), "p")
+  end,
+})
+
+-- Re-equalize splits when the terminal or tmux pane is resized.
+vim.api.nvim_create_autocmd("VimResized", {
+  group = augroup,
+  command = "tabdo wincmd =",
+})
 
 -- 'ignorecase' also applies to |cmdline-completion| (:h 'ignorecase'), so
 -- ":<Tab>" was matching both "t..." and "T..." commands. Keep ignorecase
